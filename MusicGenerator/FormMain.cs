@@ -34,16 +34,16 @@ namespace MusicGenerator
                 .Name
                 .Replace("radioButton", "");
             var noteName = button.Name.Replace("button", "");
-            textBoxResult.Text += noteName;
+            richTextBoxResult.Text += noteName;
             if (noteName == "Pause")
             {
-                textBoxResult.Text += " ";
+                richTextBoxResult.Text += " ";
             }
             else
             {
-                textBoxResult.Text += octave + " ";
+                richTextBoxResult.Text += octave + " ";
             }            
-            textBoxResult.Text += length + " ";
+            richTextBoxResult.Text += length + " ";
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -54,12 +54,12 @@ namespace MusicGenerator
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            textBoxResult.Text = "";
+            richTextBoxResult.Text = "";
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxResult.Text))
+            if (string.IsNullOrEmpty(richTextBoxResult.Text))
             {
                 return;
             }
@@ -70,7 +70,7 @@ namespace MusicGenerator
                     try
                     {
                         File.WriteAllLines(dialog.FileName,
-                            textBoxResult.Text.Split(new string[] { "\n" },
+                            richTextBoxResult.Text.Split(new string[] { "\n" },
                             StringSplitOptions.RemoveEmptyEntries));
                     }
                     catch (Exception)
@@ -87,17 +87,17 @@ namespace MusicGenerator
         {
             try
             {
-                if (string.IsNullOrEmpty(textBoxResult.Text))
+                if (string.IsNullOrEmpty(richTextBoxResult.Text))
                 {
                     return;
                 }
-                var words = textBoxResult.Text.Split(new char[] { ' ' },
+                var words = richTextBoxResult.Text.Split(new char[] { ' ' },
                     StringSplitOptions.RemoveEmptyEntries).ToList();
                 for (int i = 0; i < 2; i++)
                 {
                     words.RemoveAt(words.Count - 1);
                 }
-                textBoxResult.Text = string.Join(" ", words) + " ";
+                richTextBoxResult.Text = string.Join(" ", words) + " ";
             } 
             catch 
             {
@@ -107,12 +107,12 @@ namespace MusicGenerator
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-
+            richTextBoxResult.Text = Generator.GenerateMusic();
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxResult.Text)) 
+            if (string.IsNullOrEmpty(richTextBoxResult.Text)) 
             {
                 MessageBox.Show("Не введены ноты", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -126,7 +126,7 @@ namespace MusicGenerator
             }
             try
             {
-                Player.Play(Player.ParseInput(textBoxResult.Text), bpm);
+                Player.Play(Player.ParseInput(richTextBoxResult.Text), bpm);
             }
             catch (Exception ex)
             {
